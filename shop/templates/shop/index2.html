@@ -1,0 +1,156 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %} My Shop {% endblock %}
+{% block css %}
+<style>
+    .col-md-3 {
+        display: inline-block;
+        margin-left: 23px;
+        margin-right: -30px;
+    }
+
+    .carousel-indicators .active {
+        background-color: blue;
+    }
+
+    .col-md-3 img {
+        max-width: 250px;
+        height: 300px;
+    }
+
+    body .carousel-indicator li {
+        background-color: blue;
+    }
+
+    body .carousel-indicators {
+        bottom: 0;
+    }
+
+    body .carousel-control-prev-icon,
+    body .carousel-control-next-icon {
+        background-color: blue;
+    }
+
+    .carousel-control-next,
+    .carousel-control-prev {
+        /* width: 3%; */
+        /* margin-left: 1%;*/
+        /* margin-right: -2rem; */
+        top: auto;
+        bottom: auto;
+    }
+
+    /* {
+            width: 3%;
+            margin-left: -2rem;
+            /*margin-right: 1%; 
+            top:auto;
+            bottom: auto;
+          } */
+
+    body .no-padding {
+        padding-left: 0;
+        padding-right: 0;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+{%load static%}
+<!-- <a href="{% static 'shop/file.txt' %}" > 
+      <img src='{% static "shop/chat.jpg" %}' alt="img" style="width:42px; height:42px;"> 
+    </a> -->
+
+<!--        carousel indicators starts from here-->
+
+<div class="container">
+
+    <!-- Slideshow starts here -->
+
+    {% for product, range, nSlides in allProds %}
+
+    <h3 style="margin-top: 4rem;">{{product.0.category}} - Recommended items</h3>
+    <div id="demo{{forloop.counter}}" class="carousel slide my-3" data-ride="carousel">
+        <ul class="carousel-indicators">
+            <li data-bs-target="#demo{{forloop.counter}}" data-bs-slide-to="0" class="active" aria-current="true"
+                aria-label="Slide 0"></li>
+            {% for i in range %}
+            <li data-bs-target="#demo{{forloop.parentloop.counter}}" data-bs-slide-to="{{i}}" aria-label="Slide {{i}}">
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="container carousel-inner no-padding">
+            <div class="carousel-item active">
+
+                {% for i in product|slice:"1:" %}
+                <div class="col-xs-3 col-sm-3 col-md-3 col-xl-3">
+                    <div class="card" style="width: 18rem;">
+                        <img src="/media/{{i.image}}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{i.product_name}}</h5>
+                            <p class="card-text">{{i.desc}}</p>
+                            <button id="pr{{i.id}}" class="btn btn-primary cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
+            </div>
+            <div class="carousel-item">
+                {% endif %}
+
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <a class="carousel-control-prev" href="#demo{{forloop.counter}}" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+        <!-- <button class="carousel-control-prev" type="button" data-bs-target="#demo{{forloop.counter}}" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#demo{{forloop.counter}}" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button> -->
+
+    </div>
+
+    {% endfor %}
+
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    // console.log('working')
+    if (localStorage.getItem('cart') == null) {
+        var cart = {};
+    }
+    else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+    }
+
+    $('.cart').click(function () {
+        // console.log('clicked');
+        var idStr = this.id.toString();
+        // console.log(idStr);
+
+        if (cart[idStr] != undefined) {
+            cart[idStr] = cart[idStr] + 1;
+        }
+        else {
+            cart[idStr] = 1;
+        }
+        // console.log(cart);
+        localStorage.setItem('cart', JSON.stringify(cart));
+    });
+</script>
+
+{% endblock %}
