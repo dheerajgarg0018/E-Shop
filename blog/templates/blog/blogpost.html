@@ -36,5 +36,43 @@
             </div>
         </aside><!-- /.blog-sidebar -->
     </div>
+    <div class="row my-2">
+        <div class="col-md-6">
+            {% if prev %}
+            <div class="row mx-5 no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <strong class="d-inline-block mb-2 text-primary">{{prev.head0}}</strong>
+                    <h3 class="mb-0">{{prev.title}}</h3>
+                    <div class="mb-1 text-muted">{{prev.pub_date}}</div>
+                    <p class="card-text mb-auto">{{prev.chead0}}</p>
+                    <a href="../blogpost/{{prev.post_id}}" class="stretched-link">&larr; Previous</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <img src="/media/{{prev.thumbnail}}" class="bd-placeholder-img" width="200" height="250"
+                        aria-label="Placeholder: Thumbnail">
+                    </img>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            {% if next %}
+            <div class="row mx-5 no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <strong class="d-inline-block mb-2 text-primary">{{next.head0}}</strong>
+                    <h3 class="mb-0">{{next.title}}</h3>
+                    <div class="mb-1 text-muted">{{next.pub_date}}</div>
+                    <p class="card-text mb-auto">{{next.chead0}}</p>
+                    <a href="../blogpost/{{next.post_id}}" class="stretched-link">Next &rarr;</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <img src="/media/{{next.thumbnail}}" class="bd-placeholder-img" width="200" height="250"
+                        aria-label="Placeholder: Thumbnail">
+                    </img>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {%endblock%}

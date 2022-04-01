@@ -1,3 +1,4 @@
+from operator import truediv
 from unicodedata import category, name
 from django.http.response import HttpResponse
 from django.shortcuts import render
@@ -60,19 +61,41 @@ def tracker(request):
                     updates.append(
                         {'text': item.update_desc, 'time': item.timestamp})
                     response = json.dumps(
-                        [updates, order[0].items_json], default=str)
+                        {"status": "success", "updates": updates, "itemsJson": order[0].items_json}, default=str)
 
                 return HttpResponse(response)
             else:
-                return HttpResponse('{}')
+                return HttpResponse('{"status":"noitem"}')
         except Exception as e:
-            return HttpResponse('{}')
+            return HttpResponse('{"status":"error"}')
 
     return render(request, 'shop/tracker.html')
 
 
+def searchMatch(query, item):
+    if query in item.desc.lower() or query in item.product_name.lower() or query in item.category.lower() or query in item.sub_category.lower():
+        return True
+    else:
+        return False
+
+
 def search(request):
-    return render(request, 'shop/search.html')
+    query = request.GET.get('search')
+    allProds = []
+    catProds = Product.objects.values('category', 'id')
+    cats = {item["category"] for item in catProds}
+    for cat in cats:
+        prodtemp = Product.objects.filter(category=cat)
+        prod = [item for item in prodtemp if searchMatch(query, item)]
+        n = len(prod)
+        nSlides = ceil(n/4)
+        if n != 0:
+            allProds.append([prod, range(1, nSlides), nSlides])
+
+    params = {'allProds': allProds, 'msg': ""}
+    if len(allProds) == 0 or len(query) < 4:
+        params = {'msg': "Please make sure to enter relevant search"}
+    return render(request, 'shop/search.html', params)
 
 
 def productView(request, myid):

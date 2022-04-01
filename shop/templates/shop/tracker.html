@@ -55,10 +55,12 @@
             encode: true
         })
         .done(function(data) {
+            $('#citems').empty();
             // console.log(data)
             data = JSON.parse(data);
-            updates = data[0];
-            if (updates.length > 0 & updates != '{}') {
+            
+            if (data['status']=="success") {
+                updates = data['updates'];
                 for (i = 0; i < updates.length; i++) {
                     let text = updates[i]['text'];
                     let time = updates[i]['time'];
@@ -68,23 +70,27 @@
                             </li>`
                     $('#items').append(mystr);
                 }
+
+                // Filling the order details
+                cart = JSON.parse(data['itemsJson']);
+                // console.log(cart);
+                for (item in cart) {
+                    let name = cart[item][1];
+                    let qty = cart[item][0];
+                    mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
+                        ${name}
+                        <span class="badge bg-primary rounded-pill">${qty}</span>
+                        </li>`
+                    $('#citems').append(mystr);
+                }
+                
             } else {
                 mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
                         Sorry, We are unable to fetch your Order. Make sure to type correct Order Id and Email.</li>`
                 $('#items').append(mystr);
             }
 
-            cart = JSON.parse(data[1]);
-            // console.log(cart);
-            for (item in cart) {
-                let name = cart[item][1];
-                let qty = cart[item][0];
-                mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
-                        ${name}
-                        <span class="badge bg-primary rounded-pill">${qty}</span>
-                        </li>`
-                $('#citems').append(mystr);
-            }
+            
         });
         event.preventDefault();
     });
