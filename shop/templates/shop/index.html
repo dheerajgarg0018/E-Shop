@@ -1,6 +1,22 @@
 {% extends 'shop/basic.html' %}
+{% block title %} E-Shop {% endblock %}
 {% block css %}
 <style>
+.carousel-indicators {
+  position: relative !important;
+}
+.carousel-indicators li {
+    position: relative;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    width: 30px;
+    height: 3px;
+    margin-right: 3px;
+    margin-left: 3px;
+    text-indent: -999px;
+    background-color: rgba(0,0,0,.5);
+}
 .col-md-3
 {
 display: inline-block;
@@ -44,6 +60,27 @@ padding-left: 0;
 padding-right: 0;
 }
 
+@media (max-width: 768px) {
+  .carousel-inner .carousel-item>div {
+      display: none;
+  }
+
+  .carousel-inner .carousel-item>div:first-child {
+      display: block;
+  }
+}
+
+.carousel-inner .carousel-item.active,
+.carousel-inner .carousel-item-next,
+.carousel-inner .carousel-item-prev {
+  display: flex;
+}
+
+.carousel-inner .carousel-item-right,
+.carousel-inner .carousel-item-left {
+  transform: translateX(0);
+}
+
 </style>
 {% endblock %}
 
@@ -55,16 +92,7 @@ padding-right: 0;
   {% for product, range, nSlides in allProds %}
   <h3 style="margin-top: 4rem;">{{product.0.category}} - Recommended Items</h3>
   <div class="row">
-  <div id="demo{{forloop.counter}}" class="col carousel slide my-3" data-ride="carousel">
-    <ul class="carousel-indicators">
-      <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
-
-      {% for i in range %}
-      <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}"></li>
-      {% endfor %}
-    </ul>
-
-
+  <div id="carouselExampleIndicators" class="col carousel slide my-3 demo{{forloop.counter}}" data-ride="carousel">
     <div class="container carousel-inner no-padding">
 
       <div class="carousel-item active">
@@ -94,13 +122,20 @@ padding-right: 0;
       </div>
 
     </div>
+    <ul class="carousel-indicators my-3">
+      <li data-target=".demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
+    
+      {% for i in range %}
+      <li data-target=".demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}"></li>
+      {% endfor %}
+    </ul>
   </div>
   <!-- left and right controls for the slide -->
-  <button class="carousel-control-prev" data-target="#demo{{forloop.counter}}" data-slide="prev">
+  <button class="carousel-control-prev" data-target=".demo{{forloop.counter}}" data-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
   </button>
-  <button class="carousel-control-next" data-target="#demo{{forloop.counter}}" data-slide="next">
+  <button class="carousel-control-next" data-target=".demo{{forloop.counter}}" data-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
@@ -122,6 +157,12 @@ padding-right: 0;
   //   // document.getElementById('cart').innerHTML = sumValues(cart);
   //   // updateCart(cart)
   // }
+
+  $('[data-toggle=popover]').popover();
+  // $(document).on('click', '#popcart', function() {
+  //   // $('[data-toggle=popover]').popover();
+  //   alert("CLicked");
+  // });
   
   //$('.cart').click(function () {
   $('.divpr').on('click', 'button.cart', function() {
@@ -142,7 +183,7 @@ padding-right: 0;
     // document.getElementById('cart').innerHTML = sumValues(cart);
   });
 
-  $('#popcart').popover()
+  // $('#popcart').popover()
   updatePopover(cart)
   
   function updatePopover(cart) {
@@ -157,7 +198,7 @@ padding-right: 0;
       }
       popStr = popStr + "</div> <a href='/shop/checkout'><button class='btn btn-primary' id='checkout'>Checkout</button></a> <button class='btn btn-primary' onClick='clearCart()' id='clearCart'>Clear Cart</button> ";
       document.getElementById('popcart').setAttribute('data-content', popStr);
-      $('#popcart').popover('show')
+      // $('#popcart').popover('show')
   }
 
   function clearCart() {
@@ -173,8 +214,8 @@ padding-right: 0;
 
   function updateCart(cart, item) {
     var sum=0;
-    for (var item in cart) {
-      sum = sum + cart[item][0];
+    for (var i in cart) {
+      sum = sum + cart[i][0];
       // document.getElementById('div' + item).innerHTML = "<button id='minus" + item + "' class='btn btn-primary minus'>-</button> <span id='val" + item + "''>" + cart[item][0] + "</span> <button id='plus" + item + "' class='btn btn-primary plus'> + </button>";
     
     }

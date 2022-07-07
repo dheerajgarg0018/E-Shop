@@ -37,6 +37,9 @@
     //     cart = JSON.parse(localStorage.getItem('cart'));
     //     document.getElementById('cart').innerHTML = sumValues(cart);
     // }
+
+  $('[data-toggle=popover]').popover();
+
     // $('.cart').click(function () {
     $('.divpr').on('click', 'button.cart', function () {
         var idstr = this.id.toString();
@@ -56,7 +59,7 @@
         // document.getElementById('cart').innerHTML = sumValues(cart);
     });
 
-    $('#popcart').popover()
+    // $('#popcart').popover()
     // document.getElementById('popcart').setAttribute('data-content', '<h5>My Shopping Cart</h5>')
     updatePopover(cart)
 
@@ -72,7 +75,7 @@
         }
         popStr = popStr + "</div> <a href='/shop/checkout'><button class='btn btn-primary' id='checkout'>Checkout</button></a> <button class='btn btn-primary' onClick='clearCart()' id='clearCart'>Clear Cart</button> ";
         document.getElementById('popcart').setAttribute('data-content', popStr);
-        $('#popcart').popover('show')
+        // $('#popcart').popover('show')
     }
 
     function clearCart() {
@@ -86,12 +89,12 @@
 
     function updateCart(cart, item) {
         var sum = 0;
-        for (var item in cart) {
-            sum = sum + cart[item][0];
+        for (var i in cart) {
+            sum = sum + cart[i][0];
             // document.getElementById('div' + item).innerHTML = "<button id='minus" + item + "' class='btn btn-primary minus'>-</button> <span id='val" + item + "''>" + cart[item][0] + "</span> <button id='plus" + item + "' class='btn btn-primary plus'> + </button>";
 
         }
-
+        
         if (cart[item] != null)
             document.getElementById('quickpr').innerHTML = "<button id='minus" + item + "' class='btn btn-primary minus'>-</button> <span id='val" + item + "''>" + cart[item][0] + "</span> <button id='plus" + item + "' class='btn btn-primary plus'> + </button>";
 

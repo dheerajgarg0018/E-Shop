@@ -10,12 +10,6 @@ import json
 
 
 def index(request):
-    # products = Product.objects.all()
-    # print(products)
-
-    # params = {'no_of_slides': nSlides, 'range': range(1, nSlides), 'product': products}
-    # allProds = [[products, range(1, nSlides), nSlides], [
-    #     products, range(1, nSlides), nSlides]]
     allProds = []
     catProds = Product.objects.values('category', 'id')
     cats = {item["category"] for item in catProds}
