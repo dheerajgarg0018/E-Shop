@@ -38,7 +38,7 @@
     </div>
     <div class="row my-2">
         <div class="col-md-6">
-            {% if prev %}
+            {% if prev != 0 %}
             <div class="row mx-5 no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     <strong class="d-inline-block mb-2 text-primary">{{prev.head0}}</strong>
@@ -56,7 +56,7 @@
             {% endif %}
         </div>
         <div class="col-md-6">
-            {% if next %}
+            {% if next != 0 %}
             <div class="row mx-5 no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     <strong class="d-inline-block mb-2 text-primary">{{next.head0}}</strong>

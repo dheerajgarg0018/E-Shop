@@ -1,4 +1,4 @@
-from asyncio.windows_events import NULL
+# from asyncio.windows_events import NULL
 from ctypes import sizeof
 from queue import Empty
 from django.http.response import HttpResponse
@@ -15,8 +15,8 @@ def index(request):
 
 def blogpost(request, id):
     post = Blogpost.objects.filter(post_id=id)[0]
-    prev = NULL
-    next = NULL
+    prev = 0
+    next = 0
     if(bool(Blogpost.objects.filter(post_id=id-1))):
         prev = Blogpost.objects.filter(post_id=id-1)[0]
 
