@@ -101,7 +101,7 @@ padding-right: 0;
         {% for i in product %}
         <div class="col-xs-3 col-sm-3 col-md-3">
           <div class="card" style="width: 18rem; align-items: center;">
-            <img src='/media/{{i.image}}' class="card-img-top" alt="...">
+            <img src='/static/{{i.image}}' class="card-img-top" alt="...">
             <div class="card-body">
               <h4 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h4>
               <h6 class="card-title">Price : <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
